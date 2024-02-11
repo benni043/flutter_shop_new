@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool showOnlyFavourites = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,45 +24,28 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text("Produkte"),
         actions: [
-          IconButton(
-              onPressed: () => {_showPopupMenu(context)},
-              icon: const Icon(Icons.more_vert)),
+          PopupMenuButton<bool>(
+            onSelected: (value) {
+              setState(() {
+                showOnlyFavourites = value;
+              });
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem<bool>(
+                  value: true, child: Text("nur Favouriten")),
+              const PopupMenuItem<bool>(value: false, child: Text("alle"))
+            ],
+          ),
           IconButton(
               onPressed: () => Navigator.pushNamed(context, "/cart"),
               icon: const Icon(Icons.shopping_cart)),
         ],
       ),
       body: GridView.count(crossAxisCount: 2, children: [
-        for (var product in products) ProductPreview(productData: product)
+        for (var product in products
+            .where((product) => !showOnlyFavourites || product.isFavourite))
+          ProductPreview(productData: product)
       ]),
-    );
-  }
-
-  void _showPopupMenu(BuildContext context) async {
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
-
-    await showMenu(
-      context: context,
-      position: RelativeRect.fromRect(
-        Rect.fromPoints(
-          Offset.zero,
-          overlay.localToGlobal(overlay.size.bottomRight(Offset.zero)),
-        ),
-        Offset.zero & overlay.size,
-      ),
-      items: [
-        PopupMenuItem(
-          value: "Nur markierte",
-          child: const Text("Nur markierte"),
-          onTap: () => {print("nur markierte")},
-        ),
-        PopupMenuItem(
-          value: "Alle",
-          child: const Text("Alle"),
-          onTap: () => {print("alle")},
-        ),
-      ],
     );
   }
 }
