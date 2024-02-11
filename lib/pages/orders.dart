@@ -9,7 +9,7 @@ class Orders extends StatelessWidget {
     return Scaffold(
       drawer: const Drawer2(),
       appBar: AppBar(title: const Text("Bestellungen")),
-      body: Text("Bestellungen")
+      body: Text("Bestselling")
     );
   }
 }

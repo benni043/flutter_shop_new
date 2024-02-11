@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../provider/productProvider.dart';
 import '../widgets/drawer2.dart';
 import '../widgets/editProductPreview.dart';
+import 'editProduct.dart';
 
 class ManageProducts extends StatefulWidget {
   const ManageProducts({super.key});
@@ -29,7 +30,12 @@ class _ManageProductsState extends State<ManageProducts> {
     return Scaffold(
       drawer: const Drawer2(),
       appBar: AppBar(title: const Text("Produkte anpassen"), actions: [
-        IconButton(onPressed: () => {}, icon: const Icon(Icons.add))
+        IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EditProduct()));
+            },
+            icon: const Icon(Icons.add))
       ]),
       body: Column(
         children: [
@@ -40,13 +46,6 @@ class _ManageProductsState extends State<ManageProducts> {
         ],
       ),
     );
-  }
-
-  void add(ProductData productData) {
-    // final ProductProvider productProvider =
-    //     Provider.of<ProductProvider>(context);
-    //
-    // productProvider.add(productData);
   }
 
   void remove(ProductData productData) {
