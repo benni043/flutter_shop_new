@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shop/widgets/order.dart';
 import 'package:provider/provider.dart';
 import '../provider/orderProvider.dart';
-import '../widgets/drawer2.dart';
+import '../widgets/menu.dart';
 
 class Orders extends StatelessWidget {
   const Orders({super.key});
@@ -12,7 +12,7 @@ class Orders extends StatelessWidget {
     final OrderProvider orderProvider = Provider.of<OrderProvider>(context);
     
     return Scaffold(
-      drawer: const Drawer2(),
+      drawer: const Menu(),
       appBar: AppBar(title: const Text("Bestellungen")),
       body: Column(
         children: [

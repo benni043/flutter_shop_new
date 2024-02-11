@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shop/data/productData.dart';
 import 'package:flutter_shop/provider/productProvider.dart';
 import 'package:flutter_shop/provider/shoppingCartProvider.dart';
-import 'package:flutter_shop/widgets/drawer2.dart';
+import 'package:flutter_shop/widgets/menu.dart';
 import 'package:flutter_shop/widgets/productPreview.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
     final shoppingCartProvider = Provider.of<ShoppingCartProvider>(context);
 
     return Scaffold(
-      drawer: const Drawer2(),
+      drawer: const Menu(),
       appBar: AppBar(
         title: const Text("Produkte"),
         actions: [

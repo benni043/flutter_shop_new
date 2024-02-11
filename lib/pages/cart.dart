@@ -23,20 +23,25 @@ class Cart extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.all(8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Gesamt: ${shoppingCartProvider.getSumOfAllPrices()}€"),
+                  Text("Gesamt: ${shoppingCartProvider.getSumOfAllPrices()}€",
+                      style: const TextStyle(fontSize: 20)),
                   TextButton(
                       onPressed: () {
+                        if (shoppingCartProvider.cartDataList.isEmpty) return;
+
                         OrderData orderData = OrderData(
                             shoppingCartProvider.getSumOfAllPrices(),
                             DateTime.now(),
                             List.from(shoppingCartProvider.cartDataList));
 
                         orderProvider.add(orderData);
-                        
+
                         shoppingCartProvider.clear();
                       },
-                      child: const Text("Bestellen"))
+                      child: const Text("Bestellen",
+                          style: TextStyle(fontSize: 20)))
                 ],
               )),
           for (var elem in shoppingCartProvider.cartDataList)

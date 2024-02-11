@@ -54,7 +54,7 @@ class _ProductPreviewState extends State<ProductPreview> {
                   if (!shoppingCartProvider.hasProduct(widget.productData)) {
                     shoppingCartProvider.add(CartData(widget.productData, 1));
                   } else {
-                    shoppingCartProvider.changeCount(widget.productData);
+                    shoppingCartProvider.changeCount(widget.productData, 1);
                   }
 
                   final snackBar = SnackBar(
@@ -63,7 +63,10 @@ class _ProductPreviewState extends State<ProductPreview> {
                         Text("${widget.productData.productName} hinzugefügt!"),
                         //todo undo
                         TextButton(
-                            onPressed: () => {},
+                            onPressed: () {
+                              shoppingCartProvider.reduce(widget.productData);
+                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            },
                             child: const Text("undo"))
                       ],
                     ),

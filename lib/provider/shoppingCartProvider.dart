@@ -17,13 +17,25 @@ class ShoppingCartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeCount(ProductData productData) {
+  void changeCount(ProductData productData, int count) {
     for (var value in cartDataList) {
       if (value.productData == productData) {
-        value.count += 1;
+        value.count += count;
       }
     }
     notifyListeners();
+  }
+
+  void reduce(ProductData productData) {
+    for (var value in cartDataList) {
+      if (value.productData == productData) {
+        if (value.count == 1) {
+          remove(value);
+        } else {
+          changeCount(productData, -1);
+        }
+      }
+    }
   }
 
   void clear() {

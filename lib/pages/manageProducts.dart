@@ -3,7 +3,7 @@ import 'package:flutter_shop/data/productData.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/productProvider.dart';
-import '../widgets/drawer2.dart';
+import '../widgets/menu.dart';
 import '../widgets/editProductPreview.dart';
 import 'editProduct.dart';
 
@@ -28,7 +28,7 @@ class _ManageProductsState extends State<ManageProducts> {
         Provider.of<ProductProvider>(context);
 
     return Scaffold(
-      drawer: const Drawer2(),
+      drawer: const Menu(),
       appBar: AppBar(title: const Text("Produkte anpassen"), actions: [
         IconButton(
             onPressed: () {
