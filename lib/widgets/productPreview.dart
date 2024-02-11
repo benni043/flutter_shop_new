@@ -56,6 +56,21 @@ class _ProductPreviewState extends State<ProductPreview> {
                   } else {
                     shoppingCartProvider.changeCount(widget.productData);
                   }
+
+                  final snackBar = SnackBar(
+                    content: Row(
+                      children: [
+                        Text("${widget.productData.productName} hinzugefügt!"),
+                        //todo undo
+                        TextButton(
+                            onPressed: () => {},
+                            child: const Text("undo"))
+                      ],
+                    ),
+                    duration: const Duration(seconds: 2),
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 icon: const Icon(Icons.shopping_cart, color: Colors.white),
               ),

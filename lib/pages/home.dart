@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/data/productData.dart';
 import 'package:flutter_shop/provider/productProvider.dart';
+import 'package:flutter_shop/provider/shoppingCartProvider.dart';
 import 'package:flutter_shop/widgets/drawer2.dart';
 import 'package:flutter_shop/widgets/productPreview.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<ProductProvider>(context).productDataList;
+    final shoppingCartProvider = Provider.of<ShoppingCartProvider>(context);
 
     return Scaffold(
       drawer: const Drawer2(),
@@ -36,9 +38,7 @@ class _HomeState extends State<Home> {
               const PopupMenuItem<bool>(value: false, child: Text("alle"))
             ],
           ),
-          IconButton(
-              onPressed: () => Navigator.pushNamed(context, "/cart"),
-              icon: const Icon(Icons.shopping_cart)),
+          buildIconWithBadge(shoppingCartProvider.cartDataList.length),
         ],
       ),
       body: GridView.count(crossAxisCount: 2, children: [
@@ -46,6 +46,37 @@ class _HomeState extends State<Home> {
             .where((product) => !showOnlyFavourites || product.isFavourite))
           ProductPreview(productData: product)
       ]),
+    );
+  }
+
+  Widget buildIconWithBadge(int badgeNumber) {
+    return Stack(
+      children: [
+        IconButton(
+          icon: const Icon(Icons.shopping_cart),
+          onPressed: () {
+            Navigator.pushNamed(context, "/cart");
+          },
+        ),
+        Positioned(
+          right: 5,
+          top: 0,
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.orange, // Choose your desired color
+            ),
+            child: Text(
+              badgeNumber.toString(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

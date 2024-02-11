@@ -19,6 +19,11 @@ class _EditProductState extends State<EditProduct> {
   final TextEditingController _description = TextEditingController();
   final TextEditingController _imageUrl = TextEditingController();
 
+  bool nameError = false;
+  bool priceError = false;
+  bool descriptionError = false;
+  bool imageError = false;
+
   @override
   void initState() {
     if (widget.productData != null) {
@@ -32,6 +37,24 @@ class _EditProductState extends State<EditProduct> {
   }
 
   void save() {
+    setState(() {
+      _name.text.isEmpty ? nameError = true : nameError = false;
+      _description.text.isEmpty ? descriptionError = true : descriptionError = false;
+      _imageUrl.text.isEmpty ? imageError = true : imageError = false;
+
+      try {
+        double.parse(_price.text);
+        priceError = false;
+      } catch (e) {
+        priceError = true;
+        return;
+      }
+    });
+
+    if (_name.text.isEmpty ||
+        _description.text.isEmpty ||
+        _imageUrl.text.isEmpty) return;
+
     if (widget.productData == null) {
       final ProductProvider productProvider =
           Provider.of<ProductProvider>(context, listen: false);
@@ -46,6 +69,8 @@ class _EditProductState extends State<EditProduct> {
       widget.productData!.description = _description.text;
       widget.productData!.imageURL = _imageUrl.text;
     }
+
+    Navigator.pushNamed(context, "/manageProducts");
   }
 
   @override
@@ -57,8 +82,6 @@ class _EditProductState extends State<EditProduct> {
           IconButton(
               onPressed: () {
                 save();
-
-                Navigator.pushNamed(context, "/manageProducts");
               },
               icon: const Icon(Icons.save))
         ],
@@ -72,8 +95,10 @@ class _EditProductState extends State<EditProduct> {
                 width: 250,
                 child: TextField(
                   controller: _name,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: "Name"),
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: "Name",
+                      errorText: nameError ? "Dieses Feld kann nicht leer sein!" : null),
                 ),
               ),
             ),
@@ -84,8 +109,10 @@ class _EditProductState extends State<EditProduct> {
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: _price,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: "Preis"),
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: "Preis",
+                      errorText: priceError ? "Dieses Feld muss eine Zahl beinhalten!" : null),
                 ),
               ),
             ),
@@ -95,8 +122,10 @@ class _EditProductState extends State<EditProduct> {
                 width: 250,
                 child: TextField(
                   controller: _description,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: "Beschreibung"),
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: "Beschreibung",
+                      errorText: descriptionError ? "Dieses Feld kann nicht leer sein!" : null),
                 ),
               ),
             ),
@@ -106,8 +135,10 @@ class _EditProductState extends State<EditProduct> {
                 width: 250,
                 child: TextField(
                   controller: _imageUrl,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: "Bild-URL"),
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: "Bild-URL",
+                      errorText: imageError ? "Dieses Feld kann nicht leer sein!" : null),
                 ),
               ),
             )

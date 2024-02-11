@@ -8,7 +8,6 @@ class Order extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(orderData.boughtObjects);
     return ExpansionTile(
         title: Text("${orderData.totalPrice}€"),
         subtitle: Text("${orderData.dateTime}"),
