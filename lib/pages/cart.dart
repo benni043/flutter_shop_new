@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/data/orderData.dart';
+import 'package:flutter_shop/provider/orderProvider.dart';
 import 'package:flutter_shop/widgets/shoppingCartProductPreview.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +14,8 @@ class Cart extends StatelessWidget {
     final ShoppingCartProvider shoppingCartProvider =
         Provider.of<ShoppingCartProvider>(context);
 
+    final OrderProvider orderProvider = Provider.of<OrderProvider>(context);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Warenkorb")),
       body: Column(
@@ -22,7 +26,17 @@ class Cart extends StatelessWidget {
                 children: [
                   Text("Gesamt: ${shoppingCartProvider.getSumOfAllPrices()}€"),
                   TextButton(
-                      onPressed: () => {}, child: const Text("Bestellen"))
+                      onPressed: () {
+                        OrderData orderData = OrderData(
+                            shoppingCartProvider.getSumOfAllPrices(),
+                            DateTime.now(),
+                            List.from(shoppingCartProvider.cartDataList));
+
+                        orderProvider.add(orderData);
+                        
+                        shoppingCartProvider.clear();
+                      },
+                      child: const Text("Bestellen"))
                 ],
               )),
           for (var elem in shoppingCartProvider.cartDataList)

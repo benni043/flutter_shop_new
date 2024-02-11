@@ -23,6 +23,12 @@ class ShoppingCartProvider extends ChangeNotifier {
         value.count += 1;
       }
     }
+    notifyListeners();
+  }
+
+  void clear() {
+    cartDataList.clear();
+    notifyListeners();
   }
 
   bool hasProduct(ProductData productData) {
