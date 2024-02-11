@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/data/cartData.dart';
+import 'package:flutter_shop/provider/shoppingCartProvider.dart';
+import 'package:provider/provider.dart';
 import '../data/productData.dart';
 
 class ProductPreview extends StatefulWidget {
@@ -44,7 +47,16 @@ class _ProductPreviewState extends State<ProductPreview> {
                 style: const TextStyle(color: Colors.white),
               ),
               IconButton(
-                onPressed: () => {},
+                onPressed: () {
+                  final ShoppingCartProvider shoppingCartProvider =
+                      Provider.of<ShoppingCartProvider>(context, listen: false);
+
+                  if (!shoppingCartProvider.hasProduct(widget.productData)) {
+                    shoppingCartProvider.add(CartData(widget.productData, 1));
+                  } else {
+                    shoppingCartProvider.changeCount(widget.productData);
+                  }
+                },
                 icon: const Icon(Icons.shopping_cart, color: Colors.white),
               ),
             ],

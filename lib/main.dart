@@ -5,6 +5,7 @@ import 'package:flutter_shop/pages/manageProducts.dart';
 import 'package:flutter_shop/pages/orders.dart';
 import 'package:flutter_shop/pages/product.dart';
 import 'package:flutter_shop/provider/productProvider.dart';
+import 'package:flutter_shop/provider/shoppingCartProvider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => ShoppingCartProvider())
       ],
       child: MaterialApp(
         title: '05_FlutterShop',
